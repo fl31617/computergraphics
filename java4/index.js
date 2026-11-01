@@ -76,26 +76,49 @@ wrist.add(palm);
 
 const fingers = [];
 
-const fingerGeometry = new THREE.BoxGeometry(0.25, 1, 0.25);
+// 4 gishtat me madhesi te ndryshme
+const fingerHeights = [1.1, 1.3, 1.2, 0.9];
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 4; i++) {
 
     const fingerJoint = new THREE.Group();
 
-    fingerJoint.position.x = -0.7 + i * 0.35;
+    fingerJoint.position.x = -0.6 + i * 0.4;
     fingerJoint.position.y = 0.75;
 
     palm.add(fingerJoint);
 
+    const fingerGeometry = new THREE.BoxGeometry(
+        0.25,
+        fingerHeights[i],
+        0.25
+    );
 
     const finger = new THREE.Mesh(fingerGeometry, fingerMaterial);
 
+    finger.position.y = fingerHeights[i] / 2;
 
-    finger.position.y = 0.5;
     fingerJoint.add(finger);
 
     fingers.push(fingerJoint);
 }
+
+
+// Gishti i madh (Thumb)
+const thumb = new THREE.Group();
+
+thumb.position.set(-0.85, 0.1, 0);
+thumb.rotation.z = THREE.MathUtils.degToRad(45);
+
+palm.add(thumb);
+
+const thumbGeometry = new THREE.BoxGeometry(0.3, 0.9, 0.25);
+
+const thumbMesh = new THREE.Mesh(thumbGeometry, fingerMaterial);
+
+thumbMesh.position.y = 0.45;
+
+thumb.add(thumbMesh);
 
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -185,6 +208,24 @@ window.addEventListener('keydown', function(event) {
 
     if (key === 'd') {
         wrist.rotation.z -= rotationStep;
+    }
+    
+        // Mbyllja e gishtave
+    if (key === 'r') {
+        fingers.forEach(finger => {
+            finger.rotation.z -= rotationStep;
+        });
+
+        thumb.rotation.z -= rotationStep;
+    }
+
+    // Hapja e gishtave
+    if (key === 'f') {
+        fingers.forEach(finger => {
+            finger.rotation.z += rotationStep;
+        });
+
+        thumb.rotation.z += rotationStep;
     }
 
 });
