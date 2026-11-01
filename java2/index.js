@@ -27,8 +27,6 @@ const cone = new THREE.Mesh(conegeometry, conematerial );
 
 cone.position.y=2;
 
-
-
 scene.add( cone );
 
 const sphereGeometry = new THREE.SphereGeometry( 1, 32, 32 );
